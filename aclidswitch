@@ -8,6 +8,7 @@ case "$1" in
 
 battery)
     sed -i "s/^.*\bHandleLidSwitch\b.*$/HandleLidSwitch=$LID_SWITCH_ACTION_BAT/" /etc/systemd/logind.conf
+    systemctl restart systemd-logind
     light=$(/usr/bin/light -G | grep -Eo '^[0-9]+')
     if [ $light -gt $BRIGHTNESS_BAT ] ; then
 	    /usr/bin/light -S $BRIGHTNESS_BAT 
@@ -25,6 +26,7 @@ battery)
     ;;
 AC)
     sed -i "s/^.*\bHandleLidSwitch\b.*$/HandleLidSwitch=$LID_SWITCH_ACTION_AC/" /etc/systemd/logind.conf
+    systemctl restart systemd-logind
     light=$(/usr/bin/light -G | grep -Eo '^[0-9]+')
     if [ $light -lt $BRIGHTNESS_AC ] ; then
 	    /usr/bin/light -S $BRIGHTNESS_AC 
